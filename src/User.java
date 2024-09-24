@@ -3,9 +3,10 @@ package PACKAGE_NAME;
 import java.util.HashSet;
 import java.util.Set;
 
-public class User {
-    private String username;
-    private Set<Producer> subscriptions;
+// Класс пользователя, который подписывается на продюсеров
+class User {
+    private final String username;
+    private final Set<Producer> subscriptions;
 
     public User(String username) {
         this.username = username;
@@ -14,7 +15,7 @@ public class User {
 
     public void subscribe(Producer producer) {
         subscriptions.add(producer);
-        System.out.println(username + " subscribed to " + producer.getName());
+        System.out.println(username + " подписана на: " + producer.getName());
     }
 
     public Set<Producer> getSubscriptions() {
@@ -27,14 +28,15 @@ public class User {
 
     public void showSubscriptions() {
         if (subscriptions.isEmpty()) {
-            System.out.println(username + " is not subscribed to any producers.");
+            System.out.println(username + " не подписан ни на каких Продюсеров");
         } else {
-            System.out.println(username + " is subscribed to:");
+            System.out.println(username + " подписана на:");
             for (Producer producer : subscriptions) {
                 System.out.println("- " + producer.getName());
             }
         }
     }
 }
+
 
 
