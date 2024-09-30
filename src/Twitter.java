@@ -23,8 +23,8 @@ class Twitter implements Runnable {
 
                         Thread.sleep(1*100);
                         System.out.println("---------------------------------------------");
-                        System.out.println("Лента начала свою работу");
-                        System.out.println(producer.getName() + ": " + message);
+                        System.out.println("Лента начала свою работу у Пользователя" + "(" +user.getUsername() + ")");
+                        System.out.println("(Продюсер)" +producer.getName() + ": (смс)" + message);
                         System.out.println("Likes: " + producer.getLikes() + " | Dislikes: " + producer.getDislikes());
 
                         System.out.println("Comments:");
