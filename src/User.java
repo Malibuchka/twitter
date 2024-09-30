@@ -3,7 +3,6 @@ package PACKAGE_NAME;
 import java.util.HashSet;
 import java.util.Set;
 
-// Класс пользователя, который подписывается на продюсеров
 class User {
     private final String username;
     private final Set<Producer> subscriptions;
@@ -28,6 +27,7 @@ class User {
 
     public void showSubscriptions() {
         if (subscriptions.isEmpty()) {
+            System.out.println("___________________________");
             System.out.println(username + " не подписан ни на каких Продюсеров");
         } else {
             System.out.println(username + " подписана на:");
@@ -36,7 +36,16 @@ class User {
             }
         }
     }
+
+    public void commentOnProducer(Producer producer, String comment) {
+        producer.addComment(username, comment);
+    }
+
+    public void likeProducer(Producer producer) {
+        producer.like();
+    }
+
+    public void dislikeProducer(Producer producer) {
+        producer.dislike();
+    }
 }
-
-
-

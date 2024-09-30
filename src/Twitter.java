@@ -1,8 +1,5 @@
 package PACKAGE_NAME;
 
-
-// Класс Twitter управляет лентой пользователя и реализует интерфейс Runnable для многопоточки
-
 class Twitter implements Runnable {
     private final User user;
     private boolean isRunning = true;
@@ -10,7 +7,7 @@ class Twitter implements Runnable {
     public Twitter(User user) {
         this.user = user;
     }
-    // Останавливаем выполнение потока
+
     public void stop() {
         isRunning = false;
     }
@@ -20,13 +17,23 @@ class Twitter implements Runnable {
         try {
             while (isRunning) {
                 for (Producer producer : user.getSubscriptions()) {
-                    if (!isRunning) break; // Прерываем цикл, если поток остановлен
+                    if (!isRunning) break;
                     String message = producer.getMessage();
                     if (message != null) {
+
+                        Thread.sleep(1*100);
                         System.out.println("---------------------------------------------");
+                        System.out.println("Лента начала свою работу");
                         System.out.println(producer.getName() + ": " + message);
+                        System.out.println("Likes: " + producer.getLikes() + " | Dislikes: " + producer.getDislikes());
+
+                        System.out.println("Comments:");
+                        for (Comment comment : producer.getComments()) {
+                            System.out.println(" " + comment + " \n");
+                        }
                     }
-                    Thread.sleep(10 * 1000); // Задержка между любыми сообщениями 10 секунд
+                    Thread.sleep(10 * 1000); // Задержка между сообщениями
+
                 }
             }
         } catch (InterruptedException e) {

@@ -11,16 +11,11 @@ public class Main {
         Map<String, User> users = new HashMap<>(); // hashmap для user([хранение по их именам)
         Map<String, Producer> producers = new HashMap<>();//hasmap для producers
 
-        // Изначально создаем нескольких продюсеров
-        producers.put("Malik", new Producer("Malik", new String[]{"hello,", "world", "!"}));
-        producers.put("Emir-Ali", new Producer("Emir-Ali", new String[]{"hello,", "Россия", "()"}));
-        producers.put("Bayel", new Producer("Bayel", new String[]{"Привет,", "Кыргызстан", "()"}));
-
         // Создаем пользователей
         System.out.print("Введите кол-во пользователей: ");
         int userCount = Integer.parseInt(scanner.nextLine());
         for (int i = 0; i < userCount; i++) {
-            System.out.print("Введите пользователя: ");
+            System.out.print("Введите имя(имена) пользователя(пользователей): ");
             String username = scanner.nextLine();
             User user = new User(username);
             users.put(username, user);
@@ -41,8 +36,6 @@ public class Main {
         // Запускаем твиттинг для выбранного пользователя
         Twitter twitter = new Twitter(currentUser);
         Thread feedThread = new Thread(twitter);
-        //Этот вызов создаёт и запускает новый поток, который выполняет код в методе run() класса Twitter. Это происходит параллельно с основным потоком программы.
-        //Метод run() содержит код, который ты хочешь выполнить в отдельном потоке. Когда ты вызываешь метод start(), он не запускает код в run() напрямую, а делегирует это выполнение новому потоку.
         feedThread.start(); // Запускаем поток для ленты
 
 
@@ -53,8 +46,10 @@ public class Main {
             System.out.println("3. Показать текущие подписки");
             System.out.println("4. Показать текущего пользователя");
             System.out.println("5. Выйти из псевдо Твиттера");
-            System.out.print("Выбрать опцию: ");
-            System.out.println("\n ()---     ---()");
+            System.out.println("6. Напишите имя Продюсера, к которому хотите оставить комментарий");
+            System.out.println("7. Введите имя Продюсера, который хотите лайкнуть:");
+            System.out.println("8. Введите имя Продюсера, который хотите дизлайкнуть");
+            System.out.print("\n");
             String choice = scanner.nextLine();
 
 
@@ -73,7 +68,7 @@ public class Main {
                 case "2":
                     // Подписка текущего пользователя на продюсера
                     System.out.println("Доступные продюсеры: " + String.join(", ", producers.keySet()));
-                    System.out.print("Введите имя Продюсера на которого хотели бы подписаться " );
+                    System.out.print("Введите имя Продюсера на которого хотели бы подписаться: ");
                     String producerName = scanner.nextLine();
                     Producer producer = producers.get(producerName);
 
@@ -104,6 +99,48 @@ public class Main {
                         e.printStackTrace();
                     }
                     return;
+                case "6":
+                    // Комментарий к сообщению
+                    System.out.println("Доступные продюсеры: " + String.join(", ", producers.keySet()));
+                    System.out.print("Введите имя Продюсера, к которому хотите оставить комментарий: ");
+                    String producerForComment = scanner.nextLine();
+                    Producer producerForCommentObj = producers.get(producerForComment);
+                    if (producerForCommentObj != null) {
+                        System.out.print("Введите ваш комментарий: ");
+                        String comment = scanner.nextLine();
+                        currentUser.commentOnProducer(producerForCommentObj, comment);
+                    } else {
+                        System.out.println("Продюсер не найден");
+                    }
+                    break;
+                case "7":
+                    // Лайк к сообщению
+                    System.out.println("Доступные продюсеры: " + String.join(", ", producers.keySet()));
+                    System.out.print("Введите имя Продюсера, который хотите лайкнуть: ");
+                    String producerForLike = scanner.nextLine();
+                    Producer producerForLikeObj = producers.get(producerForLike);
+                    if (producerForLikeObj != null) {
+                        currentUser.likeProducer(producerForLikeObj);
+                        System.out.println("\nВы лайкнули сообщения от " + producerForLike);
+                    } else {
+                        System.out.println("Продюсер не найден");
+                    }
+                    break;
+
+                case "8":
+                    // Дизлайк к сообщению
+                    System.out.println("Доступные продюсеры: " + String.join(", ", producers.keySet()));
+
+                    System.out.print("Введите имя Продюсера, который хотите дизлайкнуть: ");
+                    String producerForDislike = scanner.nextLine();
+                    Producer producerForDislikeObj = producers.get(producerForDislike);
+                    if (producerForDislikeObj != null) {
+                        currentUser.dislikeProducer(producerForDislikeObj);
+                        System.out.println("\nВы дизлайкнули сообщения от " + producerForDislike);
+                    } else {
+                        System.out.println("Продюсер не найден");
+                    }
+                    break;
 
                 default:
                     System.out.println("Нет такого варианта. Попробуйте пожалуйста еще раз");

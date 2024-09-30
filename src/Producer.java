@@ -1,12 +1,16 @@
 package PACKAGE_NAME;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-// Класс продюсера, который генерирует сообщения
 class Producer {
     private final String name;
     private final String[] messages;
     private long lastMessageTime = 0; // Время последнего отправленного сообщения
+    private int likes = 0;
+    private int dislikes = 0;
+    private final List<Comment> comments = new ArrayList<>();
 
     public Producer(String name, String[] messages) {
         this.name = name;
@@ -16,9 +20,8 @@ class Producer {
     public String getName() {
         return name;
     }
-    //TODO: вопрос можно ли добавлять такую отсебячитину
-    // Возвращает случайное сообщение с проверкой на интервал в 60 секунд
-    public  String getMessage() {
+
+    public String getMessage() {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastMessageTime >= 60 * 1000) {
             Random rand = new Random();
@@ -27,6 +30,28 @@ class Producer {
         }
         return null; // Не отправлять сообщение, если прошло меньше 60 секунд
     }
+
+    public void addComment(String username, String comment) {
+        comments.add(new Comment(username, comment));
+    }
+
+    public void like() {
+        likes++;
+    }
+
+    public void dislike() {
+        dislikes++;
+    }
+
+    public int getLikes() {
+        return likes;
+    }
+
+    public int getDislikes() {
+        return dislikes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
 }
-
-
